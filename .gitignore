@@ -1,0 +1,8 @@
+hr/
+
+*.pyc
+*.pyo 
+*.pyd
+*.db
+
+.env 
