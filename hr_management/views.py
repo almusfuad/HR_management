@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from . forms import LoginForm
 from django.contrib import messages
 
@@ -11,7 +11,7 @@ def user_login(request):
             if form.is_valid():
                   username = form.cleaned_data['username']
                   password = form.cleaned_data['password']
-                  user = authenticate(username, password)
+                  user = authenticate(request, username=username, password=password)
                   if user is not None:
                         login(request, user)
                         messages.success(request, 'Login successful.')
@@ -22,3 +22,10 @@ def user_login(request):
       else:
             form = LoginForm()
       return render(request, 'core/login.html', {'form': form})
+
+
+def user_logout(request):
+      if request.method == 'GET':
+            logout(request)
+            messages.error(request, 'Logout successful.')
+            return redirect('login')
